@@ -573,7 +573,7 @@ static int dlpar_memory_remove_by_index(u32 drc_index, struct property *prop)
 	int lmb_found;
 	int i, rc;
 
-	pr_info("Attempting to hot-remove LMB, drc index %x\n", drc_index);
+	pr_debug("Attempting to hot-remove LMB, drc index %x\n", drc_index);
 
 	p = prop->value;
 	num_lmbs = *p++;
