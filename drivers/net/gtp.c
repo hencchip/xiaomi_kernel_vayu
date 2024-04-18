@@ -548,8 +548,9 @@ static int gtp_build_skb_ip4(struct sk_buff *skb, struct net_device *dev,
 
 	rt->dst.ops->update_pmtu(&rt->dst, NULL, skb, mtu, false);
 
-	if (!skb_is_gso(skb) && (iph->frag_off & htons(IP_DF)) &&
-	    mtu < ntohs(iph->tot_len)) {
+	if (iph->frag_off & htons(IP_DF) &&
+	    ((!skb_is_gso(skb) && skb->len > mtu) ||
+	     (skb_is_gso(skb) && !skb_gso_validate_network_len(skb, mtu)))) {
 		netdev_dbg(dev, "packet too big, fragmentation needed\n");
 		icmp_ndo_send(skb, ICMP_DEST_UNREACH, ICMP_FRAG_NEEDED,
 			      htonl(mtu));
@@ -772,6 +773,7 @@ static int gtp_hashtable_new(struct gtp_dev *gtp, int hsize)
 {
 	int i;
 
+<<<<<<< HEAD
 	gtp->addr_hash = kmalloc(sizeof(struct hlist_head) * hsize,
 				 GFP_KERNEL | __GFP_NOWARN);
 	if (gtp->addr_hash == NULL)
@@ -779,6 +781,15 @@ static int gtp_hashtable_new(struct gtp_dev *gtp, int hsize)
 
 	gtp->tid_hash = kmalloc(sizeof(struct hlist_head) * hsize,
 				GFP_KERNEL | __GFP_NOWARN);
+=======
+	gtp->addr_hash = kmalloc_array(hsize, sizeof(struct hlist_head),
+				       GFP_KERNEL | __GFP_NOWARN);
+	if (gtp->addr_hash == NULL)
+		return -ENOMEM;
+
+	gtp->tid_hash = kmalloc_array(hsize, sizeof(struct hlist_head),
+				      GFP_KERNEL | __GFP_NOWARN);
+>>>>>>> 7a83264944fc7b417a9f53ff65a571e1e28fdb13
 	if (gtp->tid_hash == NULL)
 		goto err1;
 
@@ -1300,7 +1311,7 @@ out:
 	return skb->len;
 }
 
-static struct nla_policy gtp_genl_policy[GTPA_MAX + 1] = {
+static const struct nla_policy gtp_genl_policy[GTPA_MAX + 1] = {
 	[GTPA_LINK]		= { .type = NLA_U32, },
 	[GTPA_VERSION]		= { .type = NLA_U32, },
 	[GTPA_TID]		= { .type = NLA_U64, },

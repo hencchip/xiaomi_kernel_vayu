@@ -40,7 +40,7 @@ void debug_dump_bytes(uint8_t *buffer, uint16_t length, char *pDescription)
 	byteOffset = 0;
 	for (i = 0; i < length; i++) {
 		A_SNPRINTF(stream + offset, (sizeof(stream) - offset),
-			   "%02X ", buffer[i]);
+			   "%05X ", buffer[i]);
 		count++;
 		offset += 3;
 

@@ -148,7 +148,7 @@ enum print_reason {
 /* QC2.0 voltage UV threshold 7.8V */
 #define QC2_HVDCP_VOL_UV_THR		7800000
 #define CHECK_VBUS_WORK_DELAY_MS	200
-#define UNSTANDARD_HVDCP2_UA		2000000
+#define UNSTANDARD_HVDCP2_UA		1800000
 
 #define BAT_TEMP_COLD			0
 #define BAT_TEMP_COOL			150
@@ -176,7 +176,7 @@ enum print_reason {
 #define ICL_LIMIT_LEVEL_THR		8
 
 /* defined for qc2_unsupported */
-#define QC2_UNSUPPORTED_UA		2000000
+#define QC2_UNSUPPORTED_UA		1800000
 /* defined for HVDCP2 */
 #define HVDCP2_CURRENT_UA		1500000
 
@@ -197,7 +197,7 @@ enum print_reason {
 #define SDP_100_MA			100000
 #define SDP_CURRENT_UA			500000
 #define CDP_CURRENT_UA			1500000
-#define DCP_CURRENT_UA			2500000
+#define DCP_CURRENT_UA			1600000
 #define HVDCP_CURRENT_UA		2800000
 #define HVDCP_CLASS_B_CURRENT_UA		3100000
 #define HVDCP_START_CURRENT_UA_FOR_BQ	500000
