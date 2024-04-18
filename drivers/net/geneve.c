@@ -217,7 +217,7 @@ static void geneve_rx(struct geneve_dev *geneve, struct geneve_sock *gs,
 	struct metadata_dst *tun_dst = NULL;
 	struct pcpu_sw_netstats *stats;
 	unsigned int len;
-	int err = 0;
+	int nh, err = 0;
 	void *oiph;
 
 	if (ip_tunnel_collect_metadata() || gs->collect_md) {
@@ -261,8 +261,22 @@ static void geneve_rx(struct geneve_dev *geneve, struct geneve_sock *gs,
 		goto drop;
 	}
 
-	oiph = skb_network_header(skb);
+	/* Save offset of outer header relative to skb->head,
+	 * because we are going to reset the network header to the inner header
+	 * and might change skb->head.
+	 */
+	nh = skb_network_header(skb) - skb->head;
+
 	skb_reset_network_header(skb);
+
+	if (!pskb_inet_may_pull(skb)) {
+		DEV_STATS_INC(geneve->dev, rx_length_errors);
+		DEV_STATS_INC(geneve->dev, rx_errors);
+		goto drop;
+	}
+
+	/* Get the outer header. */
+	oiph = skb->head + nh;
 
 	if (geneve_get_sk_family(gs) == AF_INET)
 		err = IP_ECN_decapsulate(oiph, skb);
@@ -839,10 +853,14 @@ static int geneve_xmit_skb(struct sk_buff *skb, struct net_device *dev,
 	int err;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	if (!pskb_network_may_pull(skb, sizeof(struct iphdr)))
 =======
 	if (!pskb_inet_may_pull(skb))
 >>>>>>> 7a83264944fc7b417a9f53ff65a571e1e28fdb13
+=======
+	if (!pskb_inet_may_pull(skb))
+>>>>>>> c33c221f22480e9971f9416b7cedcb41ae5d393a
 		return -EINVAL;
 
 	sport = udp_flow_src_port(geneve->net, skb, 1, USHRT_MAX, true);
@@ -898,10 +916,14 @@ static int geneve6_xmit_skb(struct sk_buff *skb, struct net_device *dev,
 	int err;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	if (!pskb_network_may_pull(skb, sizeof(struct ipv6hdr)))
 =======
 	if (!pskb_inet_may_pull(skb))
 >>>>>>> 7a83264944fc7b417a9f53ff65a571e1e28fdb13
+=======
+	if (!pskb_inet_may_pull(skb))
+>>>>>>> c33c221f22480e9971f9416b7cedcb41ae5d393a
 		return -EINVAL;
 
 	sport = udp_flow_src_port(geneve->net, skb, 1, USHRT_MAX, true);

@@ -449,8 +449,12 @@ static inline void wait_key_set(poll_table *wait, unsigned long in,
 		wait->_key |= POLLOUT_SET;
 }
 
+<<<<<<< HEAD
 static int noinline_for_stack
 do_select(int n, fd_set_bits *fds, struct timespec64 *end_time)
+=======
+static noinline_for_stack int do_select(int n, fd_set_bits *fds, struct timespec64 *end_time)
+>>>>>>> c33c221f22480e9971f9416b7cedcb41ae5d393a
 {
 	ktime_t expire, *to = NULL;
 	struct poll_wqueues table;
