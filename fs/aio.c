@@ -564,22 +564,9 @@ void kiocb_set_cancel_fn(struct kiocb *iocb, kiocb_cancel_fn *cancel)
 	struct kioctx *ctx = req->ki_ctx;
 	unsigned long flags;
 
-<<<<<<< HEAD
 	if (WARN_ON_ONCE(!list_empty(&req->ki_list)))
 		return;
-=======
-	/*
-	 * kiocb didn't come from aio or is neither a read nor a write, hence
-	 * ignore it.
-	 */
-	if (!(iocb->ki_flags & IOCB_AIO_RW))
-		return;
 
-	spin_lock_irqsave(&ctx->ctx_lock, flags);
-
-	if (!req->ki_list.next)
-		list_add(&req->ki_list, &ctx->active_reqs);
->>>>>>> c33c221f22480e9971f9416b7cedcb41ae5d393a
 
 	spin_lock_irqsave(&ctx->ctx_lock, flags);
 	list_add_tail(&req->ki_list, &ctx->active_reqs);
