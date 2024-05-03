@@ -1719,7 +1719,7 @@ static ssize_t
 thermal_board_sensor_temp_store(struct device *dev,
 				struct device_attribute *attr, const char *buf, size_t len)
 {
-       snprintf(board_sensor_temp, 4096, buf);
+       snprintf(board_sensor_temp, PAGE_SIZE, buf);
 
        return len;
 }
@@ -1751,7 +1751,7 @@ thermal_boost_store(struct device *dev,
 				      struct device_attribute *attr, const char *buf, size_t len)
 {
 	int ret;
-	ret = snprintf(boost_buf, 4096, buf);
+	ret = snprintf(boost_buf, PAGE_SIZE, buf);
 	return len;
 }
 
