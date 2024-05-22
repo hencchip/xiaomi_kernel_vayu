@@ -1047,7 +1047,7 @@ static inline void sk_prot_clear_nulls(struct sock *sk, int size)
  * socket layer -> transport layer interface
  */
 struct proto {
-	void		(*close)(struct sock *sk,
+	void			(*close)(struct sock *sk,
 					long timeout);
 	int			(*pre_connect)(struct sock *sk,
 					struct sockaddr *uaddr,

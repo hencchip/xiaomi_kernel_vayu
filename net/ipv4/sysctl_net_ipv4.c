@@ -1145,6 +1145,15 @@ static struct ctl_table ipv4_net_table[] = {
 		.extra1		= &three,
 		.extra2		= &hundred,
 	},
+	{
+		.procname	= "tcp_early_retrans",
+		.data		= &init_net.ipv4.sysctl_tcp_early_retrans,
+		.maxlen		= sizeof(int),
+		.mode		= 0644,
+		.proc_handler	= proc_dointvec_minmax,
+		.extra1		= &zero,
+		.extra2		= &four,
+	},
 	{ }
 };
 

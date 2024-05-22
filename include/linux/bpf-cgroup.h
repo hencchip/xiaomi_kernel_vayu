@@ -99,7 +99,7 @@ int __cgroup_bpf_run_filter_sock_ops(struct sock *sk,
 ({									       \
 	int __ret = 0;							       \
 	if (cgroup_bpf_enabled && sk) {					       \
-		__ret = __cgroup_bpf_run_filter_sk(sk, type);			\
+		__ret = __cgroup_bpf_run_filter_sk(sk, type);		       \
 	}								       \
 	__ret;								       \
 })
@@ -112,7 +112,7 @@ int __cgroup_bpf_run_filter_sock_ops(struct sock *sk,
 
 #define BPF_CGROUP_RUN_PROG_INET6_POST_BIND(sk)				       \
 	BPF_CGROUP_RUN_SK_PROG(sk, BPF_CGROUP_INET6_POST_BIND)
-	
+
 #define BPF_CGROUP_RUN_SA_PROG(sk, uaddr, type)				       \
 ({									       \
 	int __ret = 0;							       \
@@ -152,7 +152,7 @@ int __cgroup_bpf_run_filter_sock_ops(struct sock *sk,
 
 #define BPF_CGROUP_RUN_PROG_INET6_CONNECT_LOCK(sk, uaddr)		       \
 	BPF_CGROUP_RUN_SA_PROG_LOCK(sk, uaddr, BPF_CGROUP_INET6_CONNECT)
-	
+
 #define BPF_CGROUP_RUN_PROG_SOCK_OPS(sock_ops)				       \
 ({									       \
 	int __ret = 0;							       \

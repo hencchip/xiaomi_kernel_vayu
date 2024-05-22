@@ -606,18 +606,11 @@ static int crc32_threadfn(void *data)
 		}
 		atomic_set(&d->ready, 0);
 
-<<<<<<< HEAD
 		if (!IS_ENABLED(CONFIG_HIBERNATION_SKIP_CRC))
 			for (i = 0; i < d->run_threads; i++)
 				*d->crc32 = crc32_le(*d->crc32,
 						d->unc[i], *d->unc_len[i]);
 		atomic_set(&d->stop, 1);
-=======
-		for (i = 0; i < d->run_threads; i++)
-			*d->crc32 = crc32_le(*d->crc32,
-			                     d->unc[i], *d->unc_len[i]);
-		atomic_set_release(&d->stop, 1);
->>>>>>> c33c221f22480e9971f9416b7cedcb41ae5d393a
 		wake_up(&d->done);
 	}
 	return 0;
