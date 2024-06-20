@@ -567,7 +567,6 @@ void kiocb_set_cancel_fn(struct kiocb *iocb, kiocb_cancel_fn *cancel)
 	if (WARN_ON_ONCE(!list_empty(&req->ki_list)))
 		return;
 
-	req = container_of(iocb, struct aio_kiocb, common);
 	ctx = req->ki_ctx;
 
 	spin_lock_irqsave(&ctx->ctx_lock, flags);
